@@ -13,35 +13,32 @@ classificada como ""Suspeita"", entre 3 e 4 como ""Cúmplice"" e 5 como
 ""Assassino"".
 Caso contrário,ele será classificado como""Inocente"".
 '''
-lista = []
+perguntas = [
+    "Telefonou para a vítima?",
+    "Esteve no local do crime?",
+    "Mora perto da vítima?",
+    "Devia para a vítima?",
+    "Já trabalhou com a vítima?"
+]
+
+respostas = []
 
 print('Responda as perguntas digitando 1 para sim e 2 para não!')
-telefone = int(input('Telefonou para a vítima? '))
-if telefone == 1:
-    lista.append(telefone)
-local = int(input('Esteve no local do crime? '))
-if local == 1:
-    lista.append(local)
-mora = int(input('Mora perto da vítima? '))
-if mora == 1:
-    lista.append(mora)
-devia = int(input('Devia para a vítima? '))
-if devia == 1:
-    lista.append(devia)
-trabalha = int(input('Já trabalhou com a vítima? '))
-if trabalha == 1:
-    lista.append(mora)
 
-tamanho_lista = len(lista)
+for pergunta in perguntas:
+    resposta = int(input(pergunta + " "))
+    if resposta == 1:
+        respostas.append(resposta)
 
-if tamanho_lista == 5:
+num_respostas_positivas = len(respostas)
+
+if num_respostas_positivas == 5:
     classificacao = "Assassino"
-elif 3 <= tamanho_lista <= 4:
+elif 3 <= num_respostas_positivas <= 4:
     classificacao = "Cúmplice"
-elif tamanho_lista == 2:
+elif num_respostas_positivas == 2:
     classificacao = "Suspeita"
 else:
     classificacao = "Inocente"
 
 print(f"A classificação final é: {classificacao}")
-

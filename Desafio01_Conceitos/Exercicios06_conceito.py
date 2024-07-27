@@ -14,7 +14,7 @@ aviao = 600
 carro = 100
 onibus = 80
 
-duracao = int(input('Quantos Km tem a sua viagem? '))
+duracao = float(input('Quantos Km tem a sua viagem? '))
 
 tempo_aviao = calcular_tempo_viagem(duracao, aviao)
 tempo_carro = calcular_tempo_viagem(duracao, carro)
