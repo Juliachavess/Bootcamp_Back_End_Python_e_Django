@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="display-4">{{ episode['name'] }}</h1>
+    <p><strong>Air Date:</strong> {{ episode['air_date'] }}</p>
+    <p><strong>Episode Code:</strong> {{ episode['episode'] }}</p>
+    <p><strong>Characters in this episode:</strong></p>
+    <ul class="list-group">
+        {% for character in episode['characters'] %}
+        <li class="list-group-item">
+            <a href="{{ character }}" class="text-decoration-none">{{ character }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+

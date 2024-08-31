@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-4">Location Profile</h1>
+            <dl class="row">
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9">{{ location.name }}</dd>
+
+                <dt class="col-sm-3">Type</dt>
+                <dd class="col-sm-9">{{ location.type }}</dd>
+
+                <dt class="col-sm-3">Dimension</dt>
+                <dd class="col-sm-9">{{ location.dimension }}</dd>
+            </dl>
+
+            <h2>Residents</h2>
+            <ul>
+                {% for resident in residents %}
+                    <li>
+                        <strong>{{ resident.name }}</strong> - {{ resident.species }}
+                        <!-- Você pode adicionar mais informações do residente aqui -->
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

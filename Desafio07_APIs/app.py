@@ -15,54 +15,73 @@ def fetch_character_by_id(character_id):
     data = response.read()
     return json.loads(data)
 
-@app.route("/")
-def get_list_characters_page():
-    data = fetch_characters()  # Use a função auxiliar para buscar os dados
-    return render_template("character.html", characters=data["results"])  # Passe os dados para o template
-
-@app.route("/profile/<id>")
-def get_profile(id):
-    url = "https://rickandmortyapi.com/api/character/" + id
-    response = urllib.request.urlopen(url)
-    data = json.loads(response.read())
-    return render_template("profile.html", profile=data)
-
-
-@app.route("/lista")
-def get_list_elements():
-    data = fetch_characters()  # Use a função auxiliar para buscar os dados
-    characters = []
-
-    for character in data["results"]:
-        char_info = {
-            "name": character["name"],
-            "status": character["status"]
-        }
-        characters.append(char_info)
-
-    return {"characters": characters}
-
 def fetch_locations():
     url = "https://rickandmortyapi.com/api/location"
     response = urllib.request.urlopen(url)
     data = response.read()
     return json.loads(data)
 
+@app.route("/")
+def get_list_characters_page():
+    data = fetch_characters()
+    return render_template("character.html", characters=data["results"])
+
+@app.route("/profile/<int:id>")
+def get_profile(id):
+    data = fetch_character_by_id(id)
+    return render_template("profile.html", profile=data)
+
+@app.route("/lista")
+def get_list_elements():
+    data = fetch_characters()
+    characters = [{"name": character["name"], "status": character["status"]} for character in data["results"]]
+    return {"characters": characters}
+
 @app.route("/locations")
 def get_locations():
-    data = fetch_locations()  # Use a função auxiliar para buscar os dados
-    locations = []
-
-    for location in data["results"]:
-        loc_info = {
-            "id": location["id"],
-            "name": location["name"],
-            "type": location["type"],
-            "dimension": location["dimension"]
-        }
-        locations.append(loc_info)
-
+    data = fetch_locations()
+    locations = [{"id": location["id"], "name": location["name"], "type": location["type"], "dimension": location["dimension"]} for location in data["results"]]
     return render_template("locations.html", locations=locations)
+
+@app.route('/location/<int:id>')
+def location_profile(id):
+    url = f"https://rickandmortyapi.com/api/location/{id}"
+    response = urllib.request.urlopen(url)
+    data = response.read()
+    location = json.loads(data)
+    
+    # Obtenha URLs dos residentes
+    resident_urls = location.get('residents', [])
+    
+    # Busque os detalhes dos residentes
+    residents = []
+    for url in resident_urls:
+        try:
+            res_response = urllib.request.urlopen(url)
+            res_data = res_response.read()
+            resident = json.loads(res_data)
+            residents.append(resident)
+        except Exception as e:
+            print(f"Error loading resident data: {e}")
+            # Pode adicionar tratamento adicional de erros aqui
+
+    return render_template('location_profile.html', location=location, residents=residents)
+
+@app.route('/episodes')
+def list_episodes():
+    url = "https://rickandmortyapi.com/api/episode"
+    response = urllib.request.urlopen(url)
+    data = response.read()
+    episodes = json.loads(data)['results']
+    return render_template('episodes.html', episodes=episodes)
+
+@app.route('/episodes/<int:episode_id>')
+def episode_profile(episode_id):
+    url = f"https://rickandmortyapi.com/api/episode/{episode_id}"
+    response = urllib.request.urlopen(url)
+    data = response.read()
+    episode = json.loads(data)
+    return render_template('episode_profile.html', episode=episode)
 
 if __name__ == "__main__":
     app.run(debug=True)
