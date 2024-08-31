@@ -42,5 +42,27 @@ def get_list_elements():
 
     return {"characters": characters}
 
+def fetch_locations():
+    url = "https://rickandmortyapi.com/api/location"
+    response = urllib.request.urlopen(url)
+    data = response.read()
+    return json.loads(data)
+
+@app.route("/locations")
+def get_locations():
+    data = fetch_locations()  # Use a função auxiliar para buscar os dados
+    locations = []
+
+    for location in data["results"]:
+        loc_info = {
+            "id": location["id"],
+            "name": location["name"],
+            "type": location["type"],
+            "dimension": location["dimension"]
+        }
+        locations.append(loc_info)
+
+    return render_template("locations.html", locations=locations)
+
 if __name__ == "__main__":
     app.run(debug=True)
