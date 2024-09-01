@@ -10,10 +10,15 @@ def fetch_characters():
     return json.loads(data)
 
 def fetch_character_by_id(character_id):
-    url = f"https://rickandmortyapi.com/api/character/{character_id}"
-    response = urllib.request.urlopen(url)
-    data = response.read()
-    return json.loads(data)
+    try:
+        url = f"https://rickandmortyapi.com/api/character/{character_id}"
+        response = urllib.request.urlopen(url)
+        data = response.read()
+        return json.loads(data)
+    except Exception as e:
+        print(f"Error fetching character data: {e}")
+        return None
+
 
 def fetch_locations():
     url = "https://rickandmortyapi.com/api/location"
@@ -26,11 +31,6 @@ def get_list_characters_page():
     data = fetch_characters()
     return render_template("character.html", characters=data["results"])
 
-"""@app.route("/profile/<int:id>")
-def get_profile(id):
-    data = fetch_character_by_id(id)
-    return render_template("character_profile.html", profile=data)"""
-
 @app.route('/character/<int:id>')
 def character_profile(id):
     character = fetch_character_by_id(id)
@@ -38,6 +38,7 @@ def character_profile(id):
         return render_template('character_profile.html', character=character)
     else:
         return "Personagem não encontrado", 404
+
 
 
 @app.route("/lista")
@@ -52,8 +53,12 @@ def get_locations():
     locations = [{"id": location["id"], "name": location["name"], "type": location["type"], "dimension": location["dimension"]} for location in data["results"]]
     return render_template("locations.html", locations=locations)
 
-@app.route('/location/<int:id>')
+@app.route('/location/<id>')
 def location_profile(id):
+    if not id.isdigit():
+        return "ID inválido", 400  # Verifica se o ID é um número
+    
+    id = int(id)  # Converte o ID para inteiro
     url = f"https://rickandmortyapi.com/api/location/{id}"
     response = urllib.request.urlopen(url)
     data = response.read()
@@ -75,6 +80,7 @@ def location_profile(id):
             # Pode adicionar tratamento adicional de erros aqui
 
     return render_template('location_profile.html', location=location, residents=residents)
+
 
 @app.route('/episodes')
 def list_episodes():
