@@ -13,16 +13,25 @@
                 <div class="col-md-8 col-sm-12">
                     <h1 class="card-title display-4">{{ character['name'] }}</h1>
                     <p class="card-text"><strong>Status:</strong> {{ character['status'] }}</p>
-                    <p class="card-text"><strong>Espécie:</strong> {{ character['species'] }}</p>
+                    <p class="card-text"><strong>Espécie,:</strong> {{ character['species'] }}</p>
                     <p class="card-text"><strong>Gênero:</strong> {{ character['gender'] }}</p>
-                    <p class="card-text"><strong>Origem:</strong> {{ character['origin']['name'] }}</p>
-                    <p class="card-text"><strong>Localização:</strong> {{ character['location']['name'] }}</p>
-
                     
+                    <!-- Link para o perfil da origem -->
+                    <p class="card-text"><strong>Origem:</strong> 
+                        <a href="{{ url_for('location_profile', id=character['origin']['url'].split('/')[-1]) }}">
+                            {{ character['origin']['name'] }}
+                        </a>
+                    </p>
+                    
+                    <!-- Link para o perfil da localização atual -->
+                    <p class="card-text"><strong>Localização:</strong> 
+                        <a href="{{ url_for('location_profile', id=character['location']['url'].split('/')[-1]) }}">
+                            {{ character['location']['name'] }}
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
