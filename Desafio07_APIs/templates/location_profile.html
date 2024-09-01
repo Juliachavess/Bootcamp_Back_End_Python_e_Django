@@ -4,24 +4,25 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-12">
-            <h1 class="display-4">Location Profile</h1>
+            <h1 class="display-4">Perfil de localização</h1>
             <dl class="row">
-                <dt class="col-sm-3">Name</dt>
+                <dt class="col-sm-3">Nome</dt>
                 <dd class="col-sm-9">{{ location.name }}</dd>
 
-                <dt class="col-sm-3">Type</dt>
+                <dt class="col-sm-3">Tipo</dt>
                 <dd class="col-sm-9">{{ location.type }}</dd>
 
-                <dt class="col-sm-3">Dimension</dt>
+                <dt class="col-sm-3">Dimensão</dt>
                 <dd class="col-sm-9">{{ location.dimension }}</dd>
             </dl>
 
-            <h2>Residents</h2>
-            <ul>
+            <h2>Personagens</h2>
+            <ul class="list-group">
                 {% for resident in residents %}
-                    <li>
-                        <strong>{{ resident.name }}</strong> - {{ resident.species }}
-                        <!-- Você pode adicionar mais informações do residente aqui -->
+                    <li class="list-group-item">
+                        <a href="{{ url_for('character_profile', id=resident['id']) }}" class="text-decoration-none">
+                            <strong>{{ resident['name'] }}</strong> - {{ resident['species'] }}
+                        </a>
                     </li>
                 {% endfor %}
             </ul>

@@ -26,10 +26,19 @@ def get_list_characters_page():
     data = fetch_characters()
     return render_template("character.html", characters=data["results"])
 
-@app.route("/profile/<int:id>")
+"""@app.route("/profile/<int:id>")
 def get_profile(id):
     data = fetch_character_by_id(id)
-    return render_template("profile.html", profile=data)
+    return render_template("character_profile.html", profile=data)"""
+
+@app.route('/character/<int:id>')
+def character_profile(id):
+    character = fetch_character_by_id(id)
+    if character:
+        return render_template('character_profile.html', character=character)
+    else:
+        return "Personagem não encontrado", 404
+
 
 @app.route("/lista")
 def get_list_elements():

@@ -4,13 +4,25 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
-            <h1 class="card-title display-4">{{ character['name'] }}</h1>
-            <p class="card-text"><strong>Status:</strong> {{ character['status'] }}</p>
-            <p class="card-text"><strong>Species:</strong> {{ character['species'] }}</p>
-            <p class="card-text"><strong>Gender:</strong> {{ character['gender'] }}</p>
-            <p class="card-text"><strong>Origin:</strong> {{ character['origin']['name'] }}</p>
-            <p class="card-text"><strong>Location:</strong> {{ character['location']['name'] }}</p>
+            <div class="row">
+                <!-- Coluna da imagem -->
+                <div class="col-md-4 col-sm-12">
+                    <img src="{{ character.image }}" alt="{{ character.name }}" class="img-fluid img-thumbnail" />
+                </div>
+                <!-- Coluna das informações -->
+                <div class="col-md-8 col-sm-12">
+                    <h1 class="card-title display-4">{{ character['name'] }}</h1>
+                    <p class="card-text"><strong>Status:</strong> {{ character['status'] }}</p>
+                    <p class="card-text"><strong>Espécie:</strong> {{ character['species'] }}</p>
+                    <p class="card-text"><strong>Gênero:</strong> {{ character['gender'] }}</p>
+                    <p class="card-text"><strong>Origem:</strong> {{ character['origin']['name'] }}</p>
+                    <p class="card-text"><strong>Localização:</strong> {{ character['location']['name'] }}</p>
+
+                    
+                </div>
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
+
